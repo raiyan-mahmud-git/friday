@@ -13,7 +13,7 @@ client = OpenAI(
 completion = client.chat.completions.create(
     model=os.getenv("AI_MODEL", "openai/gpt-oss-20b"),
     messages=[
-        {"role": "system", "content": "You are Jarvis, a polite British AI assistant."},
+        {"role": "system", "content": "You are Friday, a polite British AI assistant."},
         {"role": "user", "content": "Say hello in one short sentence."},
     ],
 )

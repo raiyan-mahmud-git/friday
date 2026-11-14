@@ -18,7 +18,7 @@ from timers import TimerManager, handle_timer_command
 load_dotenv()
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-log = logging.getLogger("jarvis")
+log = logging.getLogger("friday")
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
@@ -26,7 +26,7 @@ NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 MODEL = os.getenv("AI_MODEL", "openai/gpt-oss-20b")
 
 
-VOICE = os.getenv("JARVIS_VOICE", "en-GB-RyanNeural")
+VOICE = os.getenv("FRIDAY_VOICE", os.getenv("JARVIS_VOICE", "en-GB-RyanNeural"))
 VOICE_RATE = "-5%"    
 VOICE_PITCH = "-5Hz" 
 
@@ -35,9 +35,9 @@ if not GROQ_API_KEY:
 
 client = OpenAI(api_key=GROQ_API_KEY, base_url="https://api.groq.com/openai/v1")
 
-WAKE_WORD = "jarvis"
+WAKE_WORD = os.getenv("WAKE_WORD", "friday").lower()
 SYSTEM_PROMPT = (
-    "You are Jarvis, a polite, witty and highly capable British AI butler, like the "
+    "You are Friday, a polite, witty and highly capable British AI assistant, like the "
     "assistant from Iron Man. Address the user as 'sir' occasionally. "
     "Give short responses, one to three sentences."
 )
@@ -59,7 +59,7 @@ history = []
 
 # speech
 def speak(text):
-    print(f"Jarvis: {text}")
+    print(f"Friday: {text}")
     with _speak_lock:
         try:
             asyncio.run(
@@ -136,7 +136,7 @@ def read_news():
 
 # commands
 def process_command(command):
-    """Handle one command. Returns False when Jarvis should shut down."""
+    """Handle one command. Returns False when Friday should shut down."""
     c = command.lower().strip()
 
     # Shut down
@@ -185,7 +185,7 @@ def main():
         log.info("Calibrating for background noise...")
         recognizer.adjust_for_ambient_noise(source, duration=1)
 
-    speak("Initializing Jarvis. All systems online.")
+    speak("Initializing Friday. All systems online.")
     running = True
 
     try:
@@ -202,7 +202,7 @@ def main():
                 speak("Yes sir?")
 
                 with sr.Microphone() as source:
-                    log.info("Jarvis active...")
+                    log.info("Friday active...")
                     audio = recognizer.listen(source, timeout=8, phrase_time_limit=15)
 
                 command = recognizer.recognize_google(audio)

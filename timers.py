@@ -1,4 +1,4 @@
-"""Timers and reminders for Jarvis.
+"""Timers and reminders for Friday.
 
 Voice examples:
     "set a timer for 5 minutes"
