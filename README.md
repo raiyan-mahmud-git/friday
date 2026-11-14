@@ -8,14 +8,15 @@ The demo runs on [Streamlit Community Cloud](https://streamlit.io/cloud). To pub
 
 1. Sign in to Streamlit Community Cloud with GitHub and deploy this repository.
 2. Set **Main file path** to `web_demo.py`.
-3. In the app's **Secrets** settings, add:
+3. In **Advanced settings**, choose Python **3.12**.
+4. In the app's **Secrets** settings, add:
 
    ```toml
    GROQ_API_KEY = "your-groq-key"
    AI_MODEL = "openai/gpt-oss-20b"
    ```
 
-4. Share the Streamlit app URL. The API key stays in the app's server-side secrets and is not sent to visitors.
+5. Share the Streamlit app URL. The API key stays in the app's server-side secrets and is not sent to visitors.
 
 The web demo provides AI chat only. It cannot use a visitor's microphone, speakers, or desktop controls. The voice assistant is run locally.
 
@@ -34,7 +35,7 @@ The web demo provides AI chat only. It cannot use a visitor's microphone, speake
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+pip install -r requirements-desktop.txt
 Copy-Item .env.example .env
 ```
 
@@ -89,5 +90,6 @@ To add songs, edit `musicLibrary.py` and add an entry like `"song name": "https:
 - `timers.py` — timer and reminder logic
 - `musicLibrary.py` — song names and links
 - `client.py` — quick Groq API connection check
-- `requirements.txt` — Python dependencies
+- `requirements.txt` — web demo dependencies for Streamlit Community Cloud
+- `requirements-desktop.txt` — desktop voice assistant dependencies
 - `.env.example` — local configuration template (no real credentials)
