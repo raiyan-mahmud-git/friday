@@ -2,21 +2,9 @@
 
 Friday is a Python voice assistant for your desktop, with a browser demo for trying its AI conversation. The desktop app listens for a wake word, speaks replies, manages timers and reminders, opens websites, and can play songs from your library. The browser demo lets visitors chat with Friday without installing Python.
 
-## Try the browser demo
+## Try Friday
 
-The demo runs on [Streamlit Community Cloud](https://streamlit.io/cloud). To publish it after renaming the GitHub repository:
-
-1. Sign in to Streamlit Community Cloud with GitHub and deploy this repository.
-2. Set **Main file path** to `web_demo.py`.
-3. In **Advanced settings**, choose Python **3.12**.
-4. In the app's **Secrets** settings, add:
-
-   ```toml
-   GROQ_API_KEY = "your-groq-key"
-   AI_MODEL = "openai/gpt-oss-20b"
-   ```
-
-5. Share the Streamlit app URL. The API key stays in the app's server-side secrets and is not sent to visitors.
+[Open the live Friday demo](https://friday-ai-assistant.streamlit.app/)
 
 The web demo provides AI chat only. It cannot use a visitor's microphone, speakers, or desktop controls. The voice assistant is run locally.
 
