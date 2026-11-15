@@ -121,7 +121,6 @@ def handle_timer_command(command, manager):
     isn't a timer/reminder command (so main.py can try something else)."""
     c = command.lower().strip()
 
-    # Reminders
     if c.startswith("remind me"):
         match = re.match(r"remind me to (.+) in (\S.*)$", c)
         task, when = (match.group(1), match.group(2)) if match else (None, None)
@@ -143,14 +142,12 @@ def handle_timer_command(command, manager):
     if not (mentions_timer or mentions_reminder):
         return None
 
-    # Cancel
     if re.search(r"\b(cancel|stop|clear|delete|remove)\b", c):
         count = manager.cancel_all()
         if count == 0:
             return "You have no active timers or reminders."
         return f"Cancelled {count} timer{'s' if count != 1 else ''} and reminders."
 
-    # check time left
     if re.search(r"\b(how much|how many|list|left|remaining|status|check|what)\b", c):
         active = manager.active()
         if not active:
@@ -161,7 +158,6 @@ def handle_timer_command(command, manager):
             descriptions.append(f"{name} with {format_duration(left)} left")
         return "You have " + "; ".join(descriptions) + "."
 
-    # Set a timer
     if mentions_timer:
         seconds = parse_duration(c)
         if not seconds:

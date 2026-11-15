@@ -85,7 +85,6 @@ if prompt:
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Keep the same bounded conversation context as the desktop application.
     context = st.session_state.messages[-10:]
     try:
         with st.chat_message("assistant"):

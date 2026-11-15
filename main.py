@@ -14,7 +14,6 @@ from openai import OpenAI
 import musicLibrary
 from timers import TimerManager, handle_timer_command
 
-# setup
 load_dotenv()
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -57,7 +56,6 @@ _speak_lock = threading.Lock()
 history = []
 
 
-# speech
 def speak(text):
     print(f"Friday: {text}")
     with _speak_lock:
@@ -86,7 +84,6 @@ def speak(text):
 timers = TimerManager(speak)
 
 
-# AI
 def ai_process(command):
     history.append({"role": "user", "content": command})
     del history[:-MAX_HISTORY]
@@ -106,7 +103,6 @@ def ai_process(command):
     return reply
 
 
-# news
 def read_news():
     if not NEWS_API_KEY:
         speak("News isn't set up yet. Add your NEWS_API_KEY to the dot env file.")
@@ -124,7 +120,7 @@ def read_news():
         speak("Sorry, I couldn't fetch the news.")
         return
 
-    articles = response.json().get("articles", [])[:5]  # top 5 only
+    articles = response.json().get("articles", [])[:5]
     if not articles:
         speak("I couldn't find any headlines right now.")
         return
@@ -134,30 +130,25 @@ def read_news():
         speak(article["title"])
 
 
-# commands
 def process_command(command):
     """Handle one command. Returns False when Friday should shut down."""
     c = command.lower().strip()
 
-    # Shut down
     if c in EXIT_PHRASES:
         timers.cancel_all()
         speak("Goodbye sir.")
         return False
 
-    # Timers and reminders
     reply = handle_timer_command(c, timers)
     if reply:
         speak(reply)
         return True
 
-    # Open websites
     for name, url in SITES.items():
         if f"open {name}" in c:
             webbrowser.open(url)
             return True
 
-    # Play music
     if c.startswith("play "):
         song = c.removeprefix("play ").strip()
         link = musicLibrary.music.get(song)
@@ -167,17 +158,14 @@ def process_command(command):
             speak(f"I couldn't find {song} in your library.")
         return True
 
-    # News
     if c == "news" or "the news" in c or "headlines" in c:
         read_news()
         return True
 
-    # Everything else goes to the AI
     speak(ai_process(command))
     return True
 
 
-# main loop
 def main():
     recognizer = sr.Recognizer()
 
